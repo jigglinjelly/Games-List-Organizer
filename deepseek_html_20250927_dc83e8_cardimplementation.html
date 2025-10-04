@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Collection Organizer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #16213e;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: #4cc9f0;
+        }
+        
+        .instructions {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: #4cc9f0;
+            color: #0f3460;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #36b3d9;
+        }
+        
+        .btn-reset {
+            background: #e74c3c;
+        }
+        
+        .btn-reset:hover {
+            background: #c0392b;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+            height: calc(100vh - 180px);
+        }
+        
+        .section {
+            background-color: #16213e;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            overflow: auto;
+            min-height: 200px;
+            transition: width 0.3s;
+        }
+        
+        .section.hidden {
+            display: none;
+        }
+        
+        .section.expanded {
+            flex: 3;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4cc9f0;
+            color: #4cc9f0;
+            position: sticky;
+            top: 0;
+            background-color: #16213e;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toggle-section-btn {
+            background: none;
+            border: none;
+            color: #4cc9f0;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .game-card {
+            border-radius: 8px;
+            padding: 15px;
+            height: 170px;
+            cursor: move;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .game-card {
+            border-radius: 8px;
+            padding: 15px;
+            height: 170px;
+            cursor: move;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .game-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toggle-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #4cc9f0;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+        
+        .zoom-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4cc9f0;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+        
+        .card-content {
+            margin-top: 35px;
+            height: calc(100% - 35px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hint-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #4cc9f0;
+            text-align: center;
+            padding: 0 5px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .full-info {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4cc9f0;
+            line-height: 1.2;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-description {
+            font-size: 0.85rem;
+            color: #c2c2c2;
+            line-height: 1.3;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .show .hint-title {
+            display: none;
+        }
+        
+        .show .full-info {
+            display: flex;
+        }
+        
+        .dragging {
+            opacity: 0.6;
+        }
+        
+        .section.highlight {
+            background-color: #1e3a5f;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #5a5a5a;
+            font-size: 0.8rem;
+        }
+        
+        /* Zoom overlay */
+        .zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .zoom-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+                
+         /* Zoomed card patterns */
+        .zoomed-card {
+            border-radius: 15px;
+            position: relative;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            min-height: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .zoom-overlay.active .zoomed-card {
+            transform: scale(1);
+        }
+        
+        .close-zoom {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4cc9f0;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .zoomed-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #4cc9f0;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .zoomed-content {
+            padding: 20px 0;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .zoomed-title {
+            font-size: 2.5rem;
+            color: #4cc9f0;
+            margin-bottom: 25px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) scale(1.2);
+            filter: blur(10px);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .zoomed-hint {
+            font-size: 1.8rem;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            font-style: italic;
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .zoomed-description {
+            font-size: 1.4rem;
+            color: #e6e6e6;
+            line-height: 1.6;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.3s;
+        }
+        
+        .zoomed-card.show .zoomed-title {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+        
+        .zoomed-card.show .zoomed-description {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .zoomed-card .zoomed-hint {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .zoomed-card.show .zoomed-hint {
+            opacity: 0;
+            transform: translateY(-30px) scale(0.9);
+        }
+        
+        /* Title reveal animation */
+        @keyframes titleReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(1.2);
+                filter: blur(15px);
+                letter-spacing: 5px;
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(0) scale(1.1);
+                filter: blur(5px);
+                letter-spacing: 2px;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+                letter-spacing: normal;
+            }
+        }
+        
+        .zoomed-card.show .zoomed-title {
+            animation: titleReveal 1s forwards;
+        }
+        
+        /* Scrollbar styling */
+        .section::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .section::-webkit-scrollbar-track {
+            background: #0f3460;
+            border-radius: 4px;
+        }
+        
+        .section::-webkit-scrollbar-thumb {
+            background: #4cc9f0;
+            border-radius: 4px;
+        }
+        
+        .section::-webkit-scrollbar-thumb:hover {
+            background: #36b3d9;
+        }
+        
+        @media (max-width: 1200px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .container {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            
+            .section {
+                min-width: 100%;
+            }
+            
+            .zoomed-card {
+                padding: 30px;
+            }
+            
+            .zoomed-title {
+                font-size: 2rem;
+            }
+            
+            .zoomed-hint {
+                font-size: 1.5rem;
+            }
+            
+            .zoomed-description {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .zoomed-card {
+                padding: 20px;
+            }
+            
+            .zoomed-title {
+                font-size: 1.7rem;
+            }
+            
+            .zoomed-hint {
+                font-size: 1.3rem;
+            }
+            
+            .zoomed-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <h1>Game Collection Organizer</h1>
+            <div class="controls">
+                <button class="btn" id="toggle-new-btn">Toggle New</button>
+                <button class="btn" id="toggle-expired-btn">Toggle Expired</button>
+                <button class="btn" id="toggle-replayable-btn">Toggle Replayable</button>
+                <button class="btn" id="expand-all-btn">Expand All</button>
+                <button class="btn btn-reset" id="reset-btn">Reset All</button>
+            </div>
+        </div>
+        <p class="instructions">Drag and drop games between sections. Click the toggle button (?) to reveal game details. Click the zoom button (+) to focus on a game.</p>
+    </header>
+    
+    <div class="container">
+        <div class="section" id="new-section">
+            <h2 class="section-title">
+                New Games
+                <button class="toggle-section-btn" data-section="new">Hide</button>
+            </h2>
+            <div class="games-grid" id="new-games">
+                <!-- Game cards will be added here by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="section" id="expired-section">
+            <h2 class="section-title">
+                Played (Expired)
+                <button class="toggle-section-btn" data-section="expired">Hide</button>
+            </h2>
+            <div class="games-grid" id="expired-games">
+                <!-- Game cards will be added here by dragging -->
+            </div>
+        </div>
+        
+        <div class="section" id="replayable-section">
+            <h2 class="section-title">
+                Played (Replayable)
+                <button class="toggle-section-btn" data-section="replayable">Hide</button>
+            </h2>
+            <div class="games-grid" id="replayable-games">
+                <!-- Game cards will be added here by dragging -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Zoom overlay -->
+    <div class="zoom-overlay" id="zoom-overlay">
+        <div class="zoomed-card" id="zoomed-card">
+            <button class="close-zoom" id="close-zoom">×</button>
+            <button class="zoomed-toggle" id="zoomed-toggle">?</button>
+            <div class="zoomed-content">
+                <h2 class="zoomed-title" id="zoomed-title"></h2>
+                <p class="zoomed-hint" id="zoomed-hint"></p>
+                <p class="zoomed-description" id="zoomed-description"></p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Drag and drop to organize your game collection | Click the toggle button (?) to reveal game information | Click the zoom button (+) to focus on a game</p>
+    </footer>
+
+    <script>
+         // Define your 8 poker card categories and their image counts
+        const categories = {
+            hearts: { count: 10, used: [] },
+            club: { count: 10, used: [] },
+            diamonds: { count: 10, used: [] },
+            spades: { count: 10, used: [] },
+            hearts_face: { count: 10, used: [] },
+            club_face: { count: 10, used: [] },
+            diamonds_face: { count: 10, used: [] },
+            spades_face: { count: 10, used: [] }
+        };
+
+        // Helper function to get a random unused image for a category
+        function getRandomImage(category) {
+            const cat = categories[category];
+            if (cat.used.length >= cat.count) {
+                // If all images are used, reset for this category
+                cat.used = [];
+            }
+            
+            let randomNum;
+            do {
+                randomNum = Math.floor(Math.random() * cat.count) + 1;
+            } while (cat.used.includes(randomNum));
+            
+            cat.used.push(randomNum);
+            return `images/${category}/${category}${randomNum}.jpg`;
+        }
+
+        // Updated game data with poker card categories
+        const games = [
+            {
+                hint: "Medieval Fantasy RPG",
+                title: "The Elder Scrolls V: Skyrim",
+                description: "An open-world RPG where you battle dragons and explore a vast frozen landscape as the Dragonborn.",
+                category: "hearts"
+            },
+            {
+                hint: "Post-Apocalyptic Adventure",
+                title: "Fallout 4",
+                description: "Explore a nuclear wasteland, build settlements, and find your missing son in this immersive RPG.",
+                category: "hearts"
+            },
+            {
+                hint: "Space Exploration",
+                title: "No Man's Sky",
+                description: "Explore an infinite universe with billions of planets, each with unique flora, fauna, and resources.",
+                category: "diamonds"
+            },
+            {
+                hint: "Wild West Action",
+                title: "Red Dead Redemption 2",
+                description: "Experience Arthur Morgan's story in this epic tale of life in America's unforgiving heartland.",
+                category: "club"
+            },
+            {
+                hint: "Cyberpunk Adventure",
+                title: "Cyberpunk 2077",
+                description: "Become a cyber-enhanced mercenary in Night City, a dangerous metropolis obsessed with power and body modifications.",
+                category: "club"
+            },
+            {
+                hint: "Greek Mythology Action",
+                title: "Assassin's Creed Odyssey",
+                description: "Embark on an epic journey as a Spartan mercenary during the Peloponnesian War in ancient Greece.",
+                category: "club"
+            },
+            {
+                hint: "Survival Crafting",
+                title: "Minecraft",
+                description: "Create, explore, and survive in a blocky, procedurally-generated 3D world with infinite terrain.",
+                category: "diamonds"
+            },
+            {
+                hint: "Psychological Thriller",
+                title: "Silent Hill 2",
+                description: "James Sunderland explores the haunted town of Silent Hill after receiving a letter from his deceased wife.",
+                category: "spades"
+            },
+            {
+                hint: "Vampire Action RPG",
+                title: "Vampire: The Masquerade - Bloodlines",
+                description: "Navigate the dark world of vampires in Los Angeles, balancing supernatural powers with maintaining the Masquerade.",
+                category: "hearts_face"
+            },
+            {
+                hint: "Space Horror",
+                title: "Dead Space",
+                description: "Engineer Isaac Clarke battles terrifying necromorphs aboard a derelict spaceship in the depths of space.",
+                category: "spades_face"
+            },
+            {
+                hint: "Post-Soviet RPG",
+                title: "STALKER: Shadow of Chernobyl",
+                description: "Explore the radioactive Zone around Chernobyl, facing mutants, anomalies, and factions in this atmospheric FPS/RPG.",
+                category: "hearts_face"
+            },
+            {
+                hint: "Medieval Action",
+                title: "The Witcher 3: Wild Hunt",
+                description: "Geralt of Rivia searches for his adopted daughter while battling wild beasts and navigating political intrigue.",
+                category: "hearts"
+            },
+            {
+                hint: "Zombie Survival",
+                title: "Dying Light",
+                description: "Parkour through a zombie-infested city, scavenging by day and surviving terrifying nights in this action horror game.",
+                category: "club_face"
+            },
+            {
+                hint: "Historical Action",
+                title: "Assassin's Creed Valhalla",
+                description: "Lead your Viking raiders to glory as you raid Anglo-Saxon kingdoms and build your settlement in England.",
+                category: "club_face"
+            },
+            {
+                hint: "Sci-Fi Horror",
+                title: "Alien: Isolation",
+                description: "Survive against the perfect killer in an atmosphere of constant dread and fear aboard a desolate space station.",
+                category: "spades_face"
+            },
+            {
+                hint: "Open World Racing",
+                title: "Forza Horizon 5",
+                description: "Race across vibrant landscapes in Mexico with hundreds of cars in this celebrated open-world racing game.",
+                category: "diamonds_face"
+            },
+            {
+                hint: "Action Roguelike",
+                title: "Hades",
+                description: "Defy the god of death as you battle out of the Underworld in this critically acclaimed rogue-like dungeon crawler.",
+                category: "club_face"
+            },
+            {
+                hint: "Space Strategy",
+                title: "Stellaris",
+                description: "Explore a vast galaxy, encounter alien species, and expand your interstellar empire in this grand strategy game.",
+                category: "spades"
+            },
+            {
+                hint: "Fantasy Card Game",
+                title: "Gwent: The Witcher Card Game",
+                description: "Outsmart your opponent in a game of skill and deception using decks representing different factions and strategies.",
+                category: "spades"
+            },
+            {
+                hint: "Action RPG",
+                title: "Dark Souls III",
+                description: "Face terrifying challenges and unforgiving battles in this critically acclaimed dark fantasy action RPG.",
+                category: "hearts_face"
+            }
+        ];
+
+        // Assign random images to each game
+        games.forEach(game => {
+            game.image = getRandomImage(game.category);
+        });
+
+        // Global variable to track the currently zoomed game card
+        let currentZoomedCard = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            const newGamesContainer = document.getElementById('new-games');
+            const expiredGamesContainer = document.getElementById('expired-games');
+            const replayableGamesContainer = document.getElementById('replayable-games');
+            
+            // Load saved state if available
+            let savedState = localStorage.getItem('gameCollectionState');
+            let gameStates = {};
+            
+            if (savedState) {
+                try {
+                    gameStates = JSON.parse(savedState);
+                } catch (e) {
+                    console.error('Error parsing saved state:', e);
+                    gameStates = {};
+                }
+            }
+            
+            // Create game cards
+            games.forEach((game, index) => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+                gameCard.draggable = true;
+                gameCard.id = `game-${index}`;
+                gameCard.dataset.hint = game.hint;
+                gameCard.dataset.title = game.title;
+                gameCard.dataset.description = game.description;
+                gameCard.dataset.category = game.category;
+                gameCard.dataset.image = game.image;
+                
+                // Set the background image
+                gameCard.style.backgroundImage = `url('${game.image}')`;
+                
+                gameCard.innerHTML = `
+                    <button class="toggle-btn">?</button>
+                    <button class="zoom-btn">+</button>
+                    <div class="card-content">
+                        <div class="hint-title">${game.hint}</div>
+                        <div class="full-info">
+                            <div class="game-title">${game.title}</div>
+                            <div class="game-description">${game.description}</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to appropriate container based on saved state
+                const gameState = gameStates[`game-${index}`];
+                if (gameState) {
+                    if (gameState.container === 'expired') {
+                        expiredGamesContainer.appendChild(gameCard);
+                    } else if (gameState.container === 'replayable') {
+                        replayableGamesContainer.appendChild(gameCard);
+                    } else {
+                        newGamesContainer.appendChild(gameCard);
+                    }
+                    
+                    if (gameState.isRevealed) {
+                        gameCard.classList.add('show');
+                        const toggleBtn = gameCard.querySelector('.toggle-btn');
+                        toggleBtn.textContent = '!';
+                    }
+                } else {
+                    newGamesContainer.appendChild(gameCard);
+                }
+                
+                // Add toggle functionality
+                const toggleBtn = gameCard.querySelector('.toggle-btn');
+                toggleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    gameCard.classList.toggle('show');
+                    toggleBtn.textContent = gameCard.classList.contains('show') ? '!' : '?';
+                    saveGameState();
+                });
+                
+                // Add zoom functionality
+                const zoomBtn = gameCard.querySelector('.zoom-btn');
+                zoomBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentZoomedCard = gameCard;
+                    showZoomedView(gameCard);
+                });
+                
+                // Add drag functionality
+                gameCard.addEventListener('dragstart', dragStart);
+                gameCard.addEventListener('dragend', dragEnd);
+            });
+            
+            // Setup drop zones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.addEventListener('dragover', dragOver);
+                section.addEventListener('dragenter', dragEnter);
+                section.addEventListener('dragleave', dragLeave);
+                section.addEventListener('drop', drop);
+            });
+            
+            // Setup section toggle buttons
+            document.querySelectorAll('.toggle-section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.dataset.section;
+                    const sectionEl = document.getElementById(`${section}-section`);
+                    const isHidden = sectionEl.classList.toggle('hidden');
+                    
+                    this.textContent = isHidden ? 'Show' : 'Hide';
+                    
+                    // Expand other sections when one is hidden
+                    if (isHidden) {
+                        document.querySelectorAll('.section:not(.hidden)').forEach(sec => {
+                            sec.classList.add('expanded');
+                        });
+                    } else {
+                        document.querySelectorAll('.section').forEach(sec => {
+                            sec.classList.remove('expanded');
+                        });
+                    }
+                    
+                    saveGameState();
+                });
+            });
+            
+            // Setup control buttons
+            document.getElementById('toggle-new-btn').addEventListener('click', function() {
+                document.querySelector('[data-section="new"]').click();
+            });
+            
+            document.getElementById('toggle-expired-btn').addEventListener('click', function() {
+                document.querySelector('[data-section="expired"]').click();
+            });
+            
+            document.getElementById('toggle-replayable-btn').addEventListener('click', function() {
+                document.querySelector('[data-section="replayable"]').click();
+            });
+            
+            document.getElementById('expand-all-btn').addEventListener('click', function() {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('hidden', 'expanded');
+                });
+                document.querySelectorAll('.toggle-section-btn').forEach(btn => {
+                    btn.textContent = 'Hide';
+                });
+                saveGameState();
+            });
+            
+            // Setup reset button
+            document.getElementById('reset-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all games to the New section?')) {
+                    resetGameState();
+                }
+            });
+            
+            // Setup zoom close button
+            document.getElementById('close-zoom').addEventListener('click', function() {
+                document.getElementById('zoom-overlay').classList.remove('active');
+                currentZoomedCard = null;
+            });
+            
+            // Setup zoom toggle button
+            document.getElementById('zoomed-toggle').addEventListener('click', function() {
+                const zoomedCard = document.getElementById('zoomed-card');
+                zoomedCard.classList.toggle('show');
+                this.textContent = zoomedCard.classList.contains('show') ? '!' : '?';
+                
+                // Sync with the original card
+                if (currentZoomedCard) {
+                    const toggleBtn = currentZoomedCard.querySelector('.toggle-btn');
+                    if (zoomedCard.classList.contains('show')) {
+                        currentZoomedCard.classList.add('show');
+                        if (toggleBtn) toggleBtn.textContent = '!';
+                    } else {
+                        currentZoomedCard.classList.remove('show');
+                        if (toggleBtn) toggleBtn.textContent = '?';
+                    }
+                    saveGameState();
+                }
+            });
+        });
+
+        // Save game state to localStorage
+        function saveGameState() {
+            const gameStates = {};
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                const containerId = card.closest('.games-grid').id;
+                let container = 'new';
+                
+                if (containerId === 'expired-games') {
+                    container = 'expired';
+                } else if (containerId === 'replayable-games') {
+                    container = 'replayable';
+                }
+                
+                gameStates[card.id] = {
+                    container: container,
+                    isRevealed: card.classList.contains('show')
+                };
+            });
+            
+            // Save section visibility states
+            const sections = {
+                new: !document.getElementById('new-section').classList.contains('hidden'),
+                expired: !document.getElementById('expired-section').classList.contains('hidden'),
+                replayable: !document.getElementById('replayable-section').classList.contains('hidden')
+            };
+            
+            gameStates.sections = sections;
+            
+            localStorage.setItem('gameCollectionState', JSON.stringify(gameStates));
+        }
+
+        // Reset all games to New section
+        function resetGameState() {
+            const newGamesContainer = document.getElementById('new-games');
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                // Reset to hint view
+                card.classList.remove('show');
+                const toggleBtn = card.querySelector('.toggle-btn');
+                if (toggleBtn) {
+                    toggleBtn.textContent = '?';
+                }
+                
+                // Move to New section
+                newGamesContainer.appendChild(card);
+            });
+            
+            // Reset section visibility
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('hidden', 'expanded');
+            });
+            
+            document.querySelectorAll('.toggle-section-btn').forEach(btn => {
+                btn.textContent = 'Hide';
+            });
+            
+            // Clear saved state
+            localStorage.removeItem('gameCollectionState');
+        }
+
+        // Show zoomed view
+        function showZoomedView(gameCard) {
+            const overlay = document.getElementById('zoom-overlay');
+            const zoomedCard = document.getElementById('zoomed-card');
+            const title = document.getElementById('zoomed-title');
+            const hint = document.getElementById('zoomed-hint');
+            const description = document.getElementById('zoomed-description');
+            const toggleBtn = document.getElementById('zoomed-toggle');
+            
+            title.textContent = gameCard.dataset.title;
+            hint.textContent = gameCard.dataset.hint;
+            description.textContent = gameCard.dataset.description;
+            
+            // Set the background image for the zoomed card
+            zoomedCard.style.backgroundImage = gameCard.style.backgroundImage;
+            
+            // Set the initial state based on the card
+            if (gameCard.classList.contains('show')) {
+                zoomedCard.classList.add('show');
+                toggleBtn.textContent = '!';
+            } else {
+                zoomedCard.classList.remove('show');
+                toggleBtn.textContent = '?';
+            }
+            
+            overlay.classList.add('active');
+        }
+
+        // Drag and Drop functions
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            setTimeout(() => {
+                e.target.classList.add('dragging');
+            }, 0);
+        }
+
+        function dragEnd(e) {
+            e.target.classList.remove('dragging');
+            saveGameState();
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function dragEnter(e) {
+            e.preventDefault();
+            e.target.closest('.section').classList.add('highlight');
+        }
+
+        function dragLeave(e) {
+            e.target.closest('.section').classList.remove('highlight');
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const draggable = document.getElementById(id);
+            const section = e.target.closest('.section');
+            
+            section.classList.remove('highlight');
+            
+            // Find the games grid within the section
+            const gamesGrid = section.querySelector('.games-grid');
+            
+            // Check if we're dropping on another game card
+            if (e.target.classList.contains('game-card')) {
+                // Insert before the target game card
+                e.target.parentNode.insertBefore(draggable, e.target);
+            } else if (e.target.classList.contains('games-grid')) {
+                // Append to the games grid
+                e.target.appendChild(draggable);
+            } else {
+                // Append to the games grid of the section
+                gamesGrid.appendChild(draggable);
+            }
+            
+            // Remove dragging class
+            draggable.classList.remove('dragging');
+            
+            saveGameState();
+        }
+    </script>
+</body>
+</html>
