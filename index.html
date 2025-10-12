@@ -12,24 +12,66 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        :root {
+            /* Light Theme (Default) */
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-overlay: rgba(255, 255, 255, 0.95);
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --text-accent: #c41e3a;
+            --border-color: #bdc3c7;
+            --accent-color: #c41e3a;
+            --accent-hover: #a61c35;
+            --reset-color: #e74c3c;
+            --reset-hover: #c0392b;
+            --card-overlay: rgba(255, 255, 255, 0.9);
+            --highlight-color: #ecf0f1;
+            --scrollbar-track: #ecf0f1;
+            --scrollbar-thumb: #bdc3c7;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-overlay: rgba(0, 0, 0, 0.95);
+            --text-primary: #e6e6e6;
+            --text-secondary: #a0a0a0;
+            --text-accent: #4cc9f0;
+            --border-color: #415a77;
+            --accent-color: #4cc9f0;
+            --accent-hover: #36b3d9;
+            --reset-color: #e74c3c;
+            --reset-hover: #c0392b;
+            --card-overlay: rgba(22, 33, 62, 0.9);
+            --highlight-color: #1e3a5f;
+            --scrollbar-track: #0f3460;
+            --scrollbar-thumb: #4cc9f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
         body {
-            background-color: #1a1a2e;
-            color: #e6e6e6;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             padding: 20px;
             line-height: 1.6;
             min-height: 100vh;
+            transition: all 0.3s ease;
         }
         
         header {
             text-align: center;
             margin-bottom: 20px;
             padding: 15px;
-            background-color: #16213e;
+            background-color: var(--bg-secondary);
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             gap: 10px;
+            border: 1px solid var(--border-color);
         }
         
         .header-top {
@@ -40,11 +82,12 @@
         
         h1 {
             font-size: 2rem;
-            color: #4cc9f0;
+            color: var(--text-accent);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .instructions {
-            color: #a0a0a0;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             text-align: left;
         }
@@ -52,11 +95,12 @@
         .controls {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
         
         .btn {
-            background: #4cc9f0;
-            color: #0f3460;
+            background: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 4px;
             padding: 8px 12px;
@@ -66,15 +110,38 @@
         }
         
         .btn:hover {
-            background: #36b3d9;
+            background: var(--accent-hover);
         }
         
         .btn-reset {
-            background: #e74c3c;
+            background: var(--reset-color);
         }
         
         .btn-reset:hover {
-            background: #c0392b;
+            background: var(--reset-hover);
+        }
+        
+        .theme-toggle {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        
+        .theme-icon {
+            font-size: 1.1rem;
         }
         
         .container {
@@ -86,14 +153,15 @@
         }
         
         .section {
-            background-color: #16213e;
+            background-color: var(--bg-secondary);
             border-radius: 10px;
             padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             flex: 1;
             overflow: auto;
             min-height: 200px;
-            transition: width 0.3s;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
         }
         
         .section.hidden {
@@ -108,11 +176,11 @@
             font-size: 1.2rem;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #4cc9f0;
-            color: #4cc9f0;
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--text-accent);
             position: sticky;
             top: 0;
-            background-color: #16213e;
+            background-color: var(--bg-secondary);
             z-index: 1;
             display: flex;
             justify-content: space-between;
@@ -122,7 +190,7 @@
         .toggle-section-btn {
             background: none;
             border: none;
-            color: #4cc9f0;
+            color: var(--text-accent);
             cursor: pointer;
             font-size: 0.9rem;
         }
@@ -139,13 +207,14 @@
             height: 170px;
             cursor: move;
             position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
             transition: transform 0.2s, box-shadow 0.2s;
             overflow: hidden;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
+            border: 1px solid var(--border-color);
         }
 
         /* Add overlay for transparency */
@@ -156,7 +225,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(22, 33, 62, 0.9); /* 90% opacity dark overlay */
+            background-color: var(--card-overlay);
             z-index: 0;
             border-radius: 8px;
         }
@@ -176,7 +245,8 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background-color: #4cc9f0;
+            background-color: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 50%;
             width: 25px;
@@ -195,7 +265,8 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: #4cc9f0;
+            background-color: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 50%;
             width: 25px;
@@ -211,7 +282,7 @@
         }
         
         .card-content {
-            margin-top: 35px;
+            margin-top: 15px;
             height: calc(100% - 35px);
             display: flex;
             flex-direction: column;
@@ -221,7 +292,7 @@
         .hint-title {
             font-size: 1.1rem;
             font-weight: bold;
-            color: #4cc9f0;
+            color: var(--text-accent);
             text-align: center;
             padding: 0 5px;
             transition: opacity 0.3s ease;
@@ -237,16 +308,16 @@
         .game-title {
             font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #4cc9f0;
+            margin-bottom: 5px;
+            color: var(--text-accent);
             line-height: 1.2;
             transition: opacity 0.3s ease;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add this line */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .game-description {
             font-size: 0.85rem;
-            color: #c2c2c2;
+            color: var(--text-secondary);
             line-height: 1.3;
             overflow: hidden;
             transition: opacity 0.3s ease;
@@ -265,13 +336,13 @@
         }
         
         .section.highlight {
-            background-color: #1e3a5f;
+            background-color: var(--highlight-color);
         }
         
         footer {
             text-align: center;
             margin-top: 20px;
-            color: #5a5a5a;
+            color: var(--text-secondary);
             font-size: 0.8rem;
         }
         
@@ -282,7 +353,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: var(--bg-overlay);
             display: none;
             justify-content: center;
             align-items: center;
@@ -297,7 +368,7 @@
             opacity: 1;
         }
                 
-         /* Zoomed card patterns */
+        /* Zoomed card patterns */
         .zoomed-card {
             border-radius: 15px;
             position: relative;
@@ -305,14 +376,13 @@
             max-width: 800px;
             width: 90%;
             aspect-ratio: 726 / 500;
-            /*min-height: 400px;*/
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            background-size: contain; /* Please change from cover to contain to fill*/
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            /* background-origin: content-box;*/
             position: relative;
-            overflow: hidden; /* Add this to contain the overlay */
+            overflow: hidden;
+            border: 2px solid var(--accent-color);
         }
 
         /* Add overlay for transparency in zoomed view */
@@ -323,7 +393,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(22, 33, 62, 0.9); /* 90% opacity dark overlay */
+            background-color: var(--card-overlay);
             z-index: 0;
             border-radius: 15px;
         }
@@ -341,7 +411,8 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: #4cc9f0;
+            background-color: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 50%;
             width: 35px;
@@ -360,7 +431,8 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #4cc9f0;
+            background-color: var(--accent-color);
+            color: white;
             border: none;
             border-radius: 50%;
             width: 35px;
@@ -386,19 +458,19 @@
         
         .zoomed-title {
             font-size: 2.5rem;
-            color: #4cc9f0;
+            color: var(--text-accent);
             margin-bottom: 25px;
             text-align: center;
             opacity: 0;
             transform: translateY(30px) scale(1.2);
             filter: blur(10px);
             transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9); /* Add this line */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
         }
         
         .zoomed-hint {
             font-size: 1.8rem;
-            color: #a0a0a0;
+            color: var(--text-secondary);
             margin-bottom: 30px;
             font-style: italic;
             text-align: center;
@@ -409,7 +481,7 @@
         
         .zoomed-description {
             font-size: 1.4rem;
-            color: #e6e6e6;
+            color: var(--text-primary);
             line-height: 1.6;
             text-align: center;
             opacity: 0;
@@ -470,17 +542,17 @@
         }
         
         .section::-webkit-scrollbar-track {
-            background: #0f3460;
+            background: var(--scrollbar-track);
             border-radius: 4px;
         }
         
         .section::-webkit-scrollbar-thumb {
-            background: #4cc9f0;
+            background: var(--scrollbar-thumb);
             border-radius: 4px;
         }
         
         .section::-webkit-scrollbar-thumb:hover {
-            background: #36b3d9;
+            background: var(--accent-hover);
         }
         
         @media (max-width: 1200px) {
@@ -545,7 +617,7 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
     <header>
         <div class="header-top">
             <h1>TED in Borderland ♠ ♥ ♦ ♣ </h1>
@@ -555,6 +627,10 @@
                 <button class="btn" id="toggle-replayable-btn">Toggle Replayable</button>
                 <button class="btn" id="expand-all-btn">Expand All</button>
                 <button class="btn btn-reset" id="reset-btn">Reset All</button>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                    <span>Dark Mode</span>
+                </button>
             </div>
         </div>
         <p class="instructions">Drag and drop games between sections. Click the toggle button (?) to reveal game details. Click the zoom button (+) to focus on a game.</p>
@@ -610,7 +686,7 @@
     </footer>
 
     <script>
-         // Define your 8 poker card categories and their image counts
+        // Define your 8 poker card categories and their image counts
         const categories = {
             hearts: { count: 10, used: [] },
             clubs: { count: 10, used: [] },
@@ -638,8 +714,46 @@
             cat.used.push(randomNum);
             return `https://raw.githubusercontent.com/jigglinjelly/Games-List-Organizer/a0f95295ae1a2731e1d66d05fb3dc3aed4fa5260/images/${category}/${category}${randomNum}.png`;
         }
+        // Theme management
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        const themeText = themeToggle.querySelector('span:last-child');
+        
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+        
+        // Update theme button appearance
+        function updateThemeButton(theme) {
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+        
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        // Initialize theme on load
+        document.addEventListener('DOMContentLoaded', initTheme);
 
-        // Updated game data with poker card categories
+        // Game data section removed for processing speed as requested
         const games = [
             {
                 hint: "Where in the Lion City?",
@@ -648,34 +762,22 @@
                 category: "spades"
             },
             {
+                hint: "Sweet Endings",
+                title: "Name the Desserts",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Shake Before Drinking",
+                title: "Unscramble! - Bubble Tea",
+                description: "Unscramble these bubble tea brands",
+                category: "clubs"
+            },
+            {
                 hint: "Math-termind",
                 title: "Equation Game",
                 description: "Get the most number of combinations of 3 tiles that equal the target number.",
                 category: "spades_face"
-            },
-            {
-                hint: "Six-sided Liar",
-                title: "Dice Poker – Liar’s Dice",
-                description: "Players roll their dice and take turns bidding on the total quantity of a specific face value across all players. Each bid must increase in either quantity or face value. A player can challenge the previous bid; if they are correct, they win; otherwise they lose.",
-                category: "spades"
-            },
-            {
-                hint: "Blades, Scrolls & Shards",
-                title: "Scissors Paper Stone",
-                description: "Play a few rounds of Scissors Paper Stone.",
-                category: "diamonds"
-            },
-            {
-                hint: "Spotify Subscriber",
-                title: "Guess the English Song",
-                description: "Compete to see who can guess the most number of English songs first.",
-                category: "diamonds"
-            },
-            {
-                hint: "Teo Heng Regular",
-                title: "Guess the Chinese Song",
-                description: "Compete to see who can guess the most number of Chinese songs first.",
-                category: "diamonds"
             },
             {
                 hint: "Western Lyrical Miracle",
@@ -684,22 +786,52 @@
                 category: "diamonds"
             },
             {
-                hint: "Eastern Lyrical Miracle",
-                title: "Complete the Lyrics (Chinese)",
-                description: "Compete to see who can finish the lyrics of the most number of Chinese songs.",
+                hint: "Meet-the-People Session",
+                title: "Name the Politicians",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts_face"
+            },
+            {
+                hint: "Can or Not?",
+                title: "Unscramble! - Singlish",
+                description: "Unscramble these commonly used Singlish phrases",
+                category: "clubs"
+            },
+            {
+                hint: "Six-sided Liar",
+                title: "Dice Poker – Liar’s Dice",
+                description: "Players roll their dice and take turns bidding on the total quantity of a specific face value across all players. Each bid must increase in either quantity or face value. A player can challenge the previous bid; if they are correct, they win; otherwise they lose.",
+                category: "spades"
+            },
+            {
+                hint: "A Touch on the Heart",
+                title: "Name the Dim Sum",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Four Words, One Meaning",
+                title: "Unscramble! - 成语大典",
+                description: "Unscramble these 成语",
+                category: "clubs"
+            },
+            {
+                hint: "Blades, Scrolls & Shards",
+                title: "Scissors Paper Stone",
+                description: "Play a few rounds of Scissors Paper Stone.",
                 category: "diamonds"
             },
             {
-                hint: "Feelings of the Four Winds",
-                title: "自摸 (Feeling Mahjong)",
-                description: "Guess the mahjong tile by feeling it without looking.",
-                category: "diamonds_face"
+                hint: "Icons of the Country",
+                title: "Name the Mascots",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts_face"
             },
             {
-                hint: "Sticks & Stones",
-                title: "Chopsticks & Marbles",
-                description: "Get the most number of marbles into the cup within a set duration.",
-                category: "diamonds"
+                hint: "There's An App For That",
+                title: "Unscramble! - Top 100 Apps",
+                description: "Unscramble the Top 100 Apps downloaded. Note: Company names are shortened e.g. Google Drive -> Drive",
+                category: "clubs"
             },
             {
                 hint: "Tipping Point",
@@ -708,10 +840,64 @@
                 category: "diamonds"
             },
             {
+                hint: "Wonders of the Island",
+                title: "Name the Singapore Attractions",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Pioneer Lines",
+                title: "Unscramble! - NSL EWL",
+                description: "Unscramble the North-South Line and East-West Line Stations",
+                category: "clubs"
+            },
+            {
                 hint: "Tile Listening",
                 title: "Finish the MJ Hand",
                 description: "Be the first to complete the mahjong hand shown on the screen.",
                 category: "spades_face"
+            },
+            {
+                hint: "Eastern Lyrical Miracle",
+                title: "Complete the Lyrics (Chinese)",
+                description: "Compete to see who can finish the lyrics of the most number of Chinese songs.",
+                category: "diamonds"
+            },
+            {
+                hint: "Temples of Spending",
+                title: "Name the Shopping Malls",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Lavender Line and the Golden Ring",
+                title: "Unscramble! - CCL NEL",
+                description: "Unscramble the Circle Line and North-East Line Stations",
+                category: "clubs"
+            },
+            {
+                hint: "Sticks & Stones",
+                title: "Chopsticks & Marbles",
+                description: "Get the most number of marbles into the cup within a set duration.",
+                category: "diamonds"
+            },
+            {
+                hint: "Seasons of Celebration",
+                title: "Unscramble! - Special Days & Festivals",
+                description: "Unscramble the holidays and festivals celebrated in Singapore",
+                category: "clubs_face"
+            },
+            {
+                hint: "Spotify Subscriber",
+                title: "Guess the English Song",
+                description: "Compete to see who can guess the most number of English songs first.",
+                category: "diamonds"
+            },
+            {
+                hint: "Flavours of the Street",
+                title: "Name the Hawker Dishes",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
             },
             {
                 hint: "Suck it Up",
@@ -726,98 +912,25 @@
                 category: "diamonds_face"
             },
             {
-                hint: "Wonders of the Island",
-                title: "Name the Singapore Attractions",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts"
+                hint: "Teo Heng Regular",
+                title: "Guess the Chinese Song",
+                description: "Compete to see who can guess the most number of Chinese songs first.",
+                category: "diamonds"
             },
             {
-                hint: "Meet-the-People Session",
-                title: "Name the Politicians",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts_face"
-            },
-            {
-                hint: "Temples of Spending",
-                title: "Name the Shopping Malls",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts"
-            },
-            {
-                hint: "Flavours of the Street",
-                title: "Name the Hawker Dishes",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts"
+                hint: "Feelings of the Four Winds",
+                title: "自摸 (Feeling Mahjong)",
+                description: "Guess the mahjong tile by feeling it without looking.",
+                category: "diamonds_face"
             },
             {
                 hint: "Tea Break Bites",
                 title: "Name the Snacks, Kuehs & Pastries",
                 description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
                 category: "hearts"
-            },
-            {
-                hint: "Sweet Endings",
-                title: "Name the Desserts",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts"
-            },
-            {
-                hint: "A Touch on the Heart",
-                title: "Name the Dim Sum",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts"
-            },
-            {
-                hint: "Icons of the Country",
-                title: "Name the Mascots",
-                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
-                category: "hearts_face"
-            },
-            {
-                hint: "Seasons of Celebration",
-                title: "Unscramble! - Special Days & Festivals",
-                description: "Unscramble the holidays and festivals celebrated in Singapore",
-                category: "clubs_face"
-            },
-            {
-                hint: "Shake Before Drinking",
-                title: "Unscramble! - Bubble Tea",
-                description: "Unscramble these bubble tea brands",
-                category: "clubs"
-            },
-            {
-                hint: "There's An App For That",
-                title: "Unscramble! - Top 100 Apps",
-                description: "Unscramble the Top 100 Apps downloaded. Note: Company names are shortened e.g. Google Drive -> Drive",
-                category: "clubs"
-            },
-            {
-                hint: "Lavender Line and the Golden Ring",
-                title: "Unscramble! - CCL NEL",
-                description: "Unscramble the Circle Line and North-East Line Stations",
-                category: "clubs"
-            },
-            {
-                hint: "Pioneer Lines",
-                title: "Unscramble! - NSL EWL",
-                description: "Unscramble the North-South Line and East-West Line Stations",
-                category: "clubs"
-            },
-            {
-                hint: "Four Words, One Meaning",
-                title: "Unscramble! - 成语大典",
-                description: "Unscramble these 成语",
-                category: "clubs"
-            },
-            {
-                hint: "Can or Not?",
-                title: "Unscramble! - Singlish",
-                description: "Unscramble these commonly used Singlish phrases",
-                category: "clubs"
             }
 
         ];
-
         // Assign random images to each game
         games.forEach(game => {
             game.image = getRandomImage(game.category);
@@ -825,7 +938,7 @@
 
         // Global variable to track the currently zoomed game card
         let currentZoomedCard = null;
-
+        
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             const newGamesContainer = document.getElementById('new-games');
