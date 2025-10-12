@@ -642,125 +642,180 @@
         // Updated game data with poker card categories
         const games = [
             {
-                hint: "Medieval Fantasy RPG",
-                title: "The Elder Scrolls V: Skyrim",
-                description: "An open-world RPG where you battle dragons and explore a vast frozen landscape as the Dragonborn.",
-                category: "hearts"
-            },
-            {
-                hint: "Post-Apocalyptic Adventure",
-                title: "Fallout 4",
-                description: "Explore a nuclear wasteland, build settlements, and find your missing son in this immersive RPG.",
-                category: "hearts"
-            },
-            {
-                hint: "Space Exploration",
-                title: "No Man's Sky",
-                description: "Explore an infinite universe with billions of planets, each with unique flora, fauna, and resources.",
-                category: "diamonds"
-            },
-            {
-                hint: "Wild West Action",
-                title: "Red Dead Redemption 2",
-                description: "Experience Arthur Morgan's story in this epic tale of life in America's unforgiving heartland.",
-                category: "clubs"
-            },
-            {
-                hint: "Cyberpunk Adventure",
-                title: "Cyberpunk 2077",
-                description: "Become a cyber-enhanced mercenary in Night City, a dangerous metropolis obsessed with power and body modifications.",
-                category: "clubs"
-            },
-            {
-                hint: "Greek Mythology Action",
-                title: "Assassin's Creed Odyssey",
-                description: "Embark on an epic journey as a Spartan mercenary during the Peloponnesian War in ancient Greece.",
-                category: "clubs"
-            },
-            {
-                hint: "Survival Crafting",
-                title: "Minecraft",
-                description: "Create, explore, and survive in a blocky, procedurally-generated 3D world with infinite terrain.",
-                category: "diamonds"
-            },
-            {
-                hint: "Psychological Thriller",
-                title: "Silent Hill 2",
-                description: "James Sunderland explores the haunted town of Silent Hill after receiving a letter from his deceased wife.",
+                hint: "Where in the Lion City?",
+                title: "Singapore GeoGuessr",
+                description: "Guess the shown location on the screen. Played using https://freeguessr.com",
                 category: "spades"
             },
             {
-                hint: "Vampire Action RPG",
-                title: "Vampire: The Masquerade - Bloodlines",
-                description: "Navigate the dark world of vampires in Los Angeles, balancing supernatural powers with maintaining the Masquerade.",
-                category: "hearts_face"
-            },
-            {
-                hint: "Space Horror",
-                title: "Dead Space",
-                description: "Engineer Isaac Clarke battles terrifying necromorphs aboard a derelict spaceship in the depths of space.",
+                hint: "Math-termind",
+                title: "Equation Game",
+                description: "Get the most number of combinations of 3 tiles that equal the target number.",
                 category: "spades_face"
             },
             {
-                hint: "Post-Soviet RPG",
-                title: "STALKER: Shadow of Chernobyl",
-                description: "Explore the radioactive Zone around Chernobyl, facing mutants, anomalies, and factions in this atmospheric FPS/RPG.",
-                category: "hearts_face"
+                hint: "Six-sided Liar",
+                title: "Dice Poker – Liar’s Dice",
+                description: "Players roll their dice and take turns bidding on the total quantity of a specific face value across all players. Each bid must increase in either quantity or face value. A player can challenge the previous bid; if they are correct, they win; otherwise they lose.",
+                category: "spades"
             },
             {
-                hint: "Medieval Action",
-                title: "The Witcher 3: Wild Hunt",
-                description: "Geralt of Rivia searches for his adopted daughter while battling wild beasts and navigating political intrigue.",
-                category: "hearts"
+                hint: "Blades, Scrolls & Shards",
+                title: "Scissors Paper Stone",
+                description: "Play a few rounds of Scissors Paper Stone.",
+                category: "diamonds"
             },
             {
-                hint: "Zombie Survival",
-                title: "Dying Light",
-                description: "Parkour through a zombie-infested city, scavenging by day and surviving terrifying nights in this action horror game.",
-                category: "clubs_face"
+                hint: "Spotify Subscriber",
+                title: "Guess the English Song",
+                description: "Compete to see who can guess the most number of English songs first.",
+                category: "diamonds"
             },
             {
-                hint: "Historical Action",
-                title: "Assassin's Creed Valhalla",
-                description: "Lead your Viking raiders to glory as you raid Anglo-Saxon kingdoms and build your settlement in England.",
-                category: "clubs_face"
+                hint: "Teo Heng Regular",
+                title: "Guess the Chinese Song",
+                description: "Compete to see who can guess the most number of Chinese songs first.",
+                category: "diamonds"
             },
             {
-                hint: "Sci-Fi Horror",
-                title: "Alien: Isolation",
-                description: "Survive against the perfect killer in an atmosphere of constant dread and fear aboard a desolate space station.",
-                category: "spades_face"
+                hint: "Western Lyrical Miracle",
+                title: "Complete the Lyrics (English)",
+                description: "Compete to see who can finish the lyrics of the most number of English songs.",
+                category: "diamonds"
             },
             {
-                hint: "Open World Racing",
-                title: "Forza Horizon 5",
-                description: "Race across vibrant landscapes in Mexico with hundreds of cars in this celebrated open-world racing game.",
+                hint: "Eastern Lyrical Miracle",
+                title: "Complete the Lyrics (Chinese)",
+                description: "Compete to see who can finish the lyrics of the most number of Chinese songs.",
+                category: "diamonds"
+            },
+            {
+                hint: "Feelings of the Four Winds",
+                title: "自摸 (Feeling Mahjong)",
+                description: "Guess the mahjong tile by feeling it without looking.",
                 category: "diamonds_face"
             },
             {
-                hint: "Action Roguelike",
-                title: "Hades",
-                description: "Defy the god of death as you battle out of the Underworld in this critically acclaimed rogue-like dungeon crawler.",
+                hint: "Sticks & Stones",
+                title: "Chopsticks & Marbles",
+                description: "Get the most number of marbles into the cup within a set duration.",
+                category: "diamonds"
+            },
+            {
+                hint: "Tipping Point",
+                title: "Titanic",
+                description: "Players take turns pouring a small amount of liquid into a floating shot glass. The player who causes the glass to sink loses.",
+                category: "diamonds"
+            },
+            {
+                hint: "Tile Listening",
+                title: "Finish the MJ Hand",
+                description: "Be the first to complete the mahjong hand shown on the screen.",
+                category: "spades_face"
+            },
+            {
+                hint: "Suck it Up",
+                title: "Straw Water Relay",
+                description: "Transfer the water from one cup to another using only a straw within the time limit. Fastest team or most water transferred wins.",
+                category: "diamonds"
+            },
+            {
+                hint: "$9.70 - $6.90 + $2.30",
+                title: "Five-Ten",
+                description: "Players show hands (0 or 5) and predict the total sum. Correct guess calls again; incorrect guess passes to the next player. Two consecutive correct guesses wins.",
+                category: "diamonds_face"
+            },
+            {
+                hint: "Wonders of the Island",
+                title: "Name the Singapore Attractions",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Meet-the-People Session",
+                title: "Name the Politicians",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts_face"
+            },
+            {
+                hint: "Temples of Spending",
+                title: "Name the Shopping Malls",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Flavours of the Street",
+                title: "Name the Hawker Dishes",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Tea Break Bites",
+                title: "Name the Snacks, Kuehs & Pastries",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Sweet Endings",
+                title: "Name the Desserts",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "A Touch on the Heart",
+                title: "Name the Dim Sum",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts"
+            },
+            {
+                hint: "Icons of the Country",
+                title: "Name the Mascots",
+                description: "Each contestant has a set amount of time on a clock. Only one clock runs at a time. A contestant is shown a prompt and they must identify it correctly to stop their clock and start the opponent’s. Multiple guesses are allowed. Contestants may pass, but passing adds a time penalty before the next prompt. The first contestant whose clock runs out loses.",
+                category: "hearts_face"
+            },
+            {
+                hint: "Seasons of Celebration",
+                title: "Unscramble! - Special Days & Festivals",
+                description: "Unscramble the holidays and festivals celebrated in Singapore",
                 category: "clubs_face"
             },
             {
-                hint: "Space Strategy",
-                title: "Stellaris",
-                description: "Explore a vast galaxy, encounter alien species, and expand your interstellar empire in this grand strategy game.",
-                category: "spades"
+                hint: "Shake Before Drinking",
+                title: "Unscramble! - Bubble Tea",
+                description: "Unscramble these bubble tea brands",
+                category: "clubs"
             },
             {
-                hint: "Fantasy Card Game",
-                title: "Gwent: The Witcher Card Game",
-                description: "Outsmart your opponent in a game of skill and deception using decks representing different factions and strategies.",
-                category: "spades"
+                hint: "There's An App For That",
+                title: "Unscramble! - Top 100 Apps",
+                description: "Unscramble the Top 100 Apps downloaded. Note: Company names are shortened e.g. Google Drive -> Drive",
+                category: "clubs"
             },
             {
-                hint: "Action RPG",
-                title: "Dark Souls III",
-                description: "Face terrifying challenges and unforgiving battles in this critically acclaimed dark fantasy action RPG.",
-                category: "hearts_face"
+                hint: "Lavender Line and the Golden Ring",
+                title: "Unscramble! - CCL NEL",
+                description: "Unscramble the Circle Line and North-East Line Stations",
+                category: "clubs"
+            },
+            {
+                hint: "Pioneer Lines",
+                title: "Unscramble! - NSL EWL",
+                description: "Unscramble the North-South Line and East-West Line Stations",
+                category: "clubs"
+            },
+            {
+                hint: "Four Words, One Meaning",
+                title: "Unscramble! - 成语大典",
+                description: "Unscramble these 成语",
+                category: "clubs"
+            },
+            {
+                hint: "Can or Not?",
+                title: "Unscramble! - Singlish",
+                description: "Unscramble these commonly used Singlish phrases",
+                category: "clubs"
             }
+
         ];
 
         // Assign random images to each game
